@@ -1,0 +1,29 @@
+version: '3'
+services:
+  backend:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/greenwood_academy
+      - JWT_SECRET=supersecretkey
+      - SMTP_HOST=smtp.example.com
+      - SMTP_PORT=587
+      - SMTP_USER=youruser
+      - SMTP_PASS=yourpass
+      - ADMISSIONS_EMAIL=admissions@greenwoodacademy.edu
+      - SUPPORT_EMAIL=support@greenwoodacademy.edu
+      - CORS_ORIGINS=http://localhost:3000,http://localhost:5000
+    depends_on:
+      - mongo
+    volumes:
+      - .:/usr/src/app
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
